@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IBM BMI Calculator</title>
+    <style>
+        :root {
+            --ibm-blue: #0062ff;
+            --ibm-dark-blue: #054ada;
+            --ibm-gray: #f4f4f4;
+            --ibm-dark-gray: #e0e0e0;
+            --ibm-text: #161616;
+            --ibm-accent: #8a3ffc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'IBM Plex Sans', Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--ibm-gray);
+            color: var(--ibm-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .calculator-container {
+            width: 100%;
+            max-width: 400px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .calculator-header {
+            background-color: var(--ibm-blue);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .calculator-header h1 {
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .calculator-branding {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .calculator-branding img {
+            height: 24px;
+        }
+
+        .calculator-display {
+            padding: 20px;
+            text-align: right;
+            background-color: var(--ibm-gray);
+            border-bottom: 1px solid var(--ibm-dark-gray);
+        }
+
+        .calculator-display .previous-operand {
+            font-size: 1rem;
+            color: #666;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: left;
+        }
+        
+        .input-field {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .input-field label {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+            color: var(--ibm-text);
+        }
+        
+        .input-field input {
+            padding: 10px;
+            border: 1px solid var(--ibm-dark-gray);
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        
+        .result-display {
+            margin-top: 20px;
+            text-align: center;
+            min-height: 60px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+            border: 1px solid var(--ibm-dark-gray);
+        }
+        
+        .bmi-result {
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--ibm-blue);
+        }
+        
+        .bmi-category {
+            font-size: 1.2rem;
+            margin-top: 5px;
+        }
+
+        .calculator-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background-color: var(--ibm-dark-gray);
+        }
+
+        .calculator-btn {
+            border: none;
+            outline: none;
+            background-color: white;
+            padding: 20px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .calculator-btn:hover {
+            background-color: var(--ibm-gray);
+        }
+
+        .calculator-btn:active {
+            background-color: var(--ibm-dark-gray);
+        }
+
+        .calculator-btn.operator {
+            background-color: var(--ibm-gray);
+            color: var(--ibm-blue);
+        }
+
+        .calculator-btn.operator:hover {
+            background-color: #e6f0ff;
+        }
+
+        .calculator-btn.equals {
+            background-color: var(--ibm-blue);
+            color: white;
+        }
+
+        .calculator-btn.equals:hover {
+            background-color: var(--ibm-dark-blue);
+        }
+
+        .calculator-btn.clear {
+            color: #ff4d4f;
+        }
+
+        .calculator-btn.clear:hover {
+            background-color: #fff2f0;
+        }
+
+        .span-2 {
+            grid-column: span 2;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 480px) {
+            .calculator-btn {
+                padding: 16px;
+                font-size: 1rem;
+            }
+            
+            .calculator-display .current-operand {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator-container">
+        <div class="calculator-header">
+            <h1> BMI Calculator</h1>
+            <div class="calculator-branding">
+                <img src="https://storage.googleapis.com/workspace-0f70711f-8b4e-4d94-86f1-2a93ccde5887/image/992514d8-f553-4775-9a54-b6893ffbef19.png" alt="BMI logo with eight horizontal bars in blue and white" />
+                <span>BMI</span>
+            </div>
+        </div>
+        
+        <div class="calculator-display">
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="height">Height (cm)</label>
+                    <input type="number" id="height" placeholder="Enter height" min="1" step="0.1">
+                </div>
+                <div class="input-field">
+                    <label for="weight">Weight (kg)</label>
+                    <input type="number" id="weight" placeholder="Enter weight" min="1" step="0.1">
+                </div>
+            </div>
+            <div class="result-display" id="result-display"></div>
+        </div>
+        
+        <div class="calculator-buttons">
+            <button class="calculator-btn span-2 clear" onclick="clearInputs()">Clear</button>
+            <button class="calculator-btn equals span-2" onclick="calculateBMI()">Calculate BMI</button>
+        </div>
+    </div>
+    
+    <footer>
+         Health BMI Calculator | Open Source on GitHub
+    </footer>
+
+    <script>
+        function calculateBMI() {
+            const heightInput = document.getElementById('height').value;
+            const weightInput = document.getElementById('weight').value;
+            
+            if (!heightInput || !weightInput) {
+                alert('Please enter both height and weight values');
+                return;
+            }
+            
+            const height = parseFloat(heightInput) / 100; // convert cm to m
+            const weight = parseFloat(weightInput);
+            
+            if (height <= 0 || weight <= 0) {
+                alert('Height and weight must be positive numbers');
+                return;
+            }
+            
+            const bmi = weight / (height * height);
+            const resultElement = document.getElementById('result-display');
+            
+            resultElement.innerHTML = `
+                <div class="bmi-result">BMI: ${bmi.toFixed(1)}</div>
+                <div class="bmi-category">${getBMICategory(bmi)}</div>
+            `;
+            
+            console.log('BMI Calculated:', bmi); // Debug log
+        }
+        
+        function getBMICategory(bmi) {
+            if (bmi < 18.5) return 'Underweight';
+            if (bmi < 25) return 'Normal weight';
+            if (bmi < 30) return 'Overweight';
+            return 'Obese';
+        }
+        
+        function clearInputs() {
+            document.getElementById('height').value = '';
+            document.getElementById('weight').value = '';
+            document.getElementById('result-display').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
