@@ -27,9 +27,6 @@ A clean, responsive web application that calculates Body Mass Index (BMI) based 
 ## Installation
 No installation needed - just open index.html in any modern web browser.
 
-## Screenshot
-Replace with your screenshot filename (example: screenshot.png)
-
 ## Development
 To modify:
 1. Clone repository
